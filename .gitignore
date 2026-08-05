@@ -1,1 +1,26 @@
+# Python Environment & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+ENV/
 
+# Environment Variables & Secrets
+.env
+*.pem
+
+# Playwright Browsers & Screenshots
+.playwright/
+screenshots/
+downloads/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Test & Coverage Reports
+.pytest_cache/
+htmlcov/
+.coverage
