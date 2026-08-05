@@ -1,3 +1,13 @@
+# Local Personal Profile & Private Data
+candidate_profile.json
+assets/
+*.pdf
+*.docx
+
+# Environment Variables & Secrets
+.env
+*.pem
+
 # Python Environment & Cache
 __pycache__/
 *.py[cod]
@@ -6,11 +16,7 @@ venv/
 .venv/
 ENV/
 
-# Environment Variables & Secrets
-.env
-*.pem
-
-# Playwright Browsers & Screenshots
+# Playwright Browsers, Logs & Screenshots
 .playwright/
 screenshots/
 downloads/

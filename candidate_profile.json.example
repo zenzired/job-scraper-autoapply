@@ -1,0 +1,43 @@
+{
+  "personal_info": {
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "email": "jane.doe@example.com",
+    "phone": "+61412345678",
+    "linkedin_url": "https://linkedin.com/in/janedoe",
+    "github_url": "https://github.com/janedoe",
+    "portfolio_url": "https://janedoe.dev",
+    "current_city": "Adelaide",
+    "current_state": "South Australia",
+    "country": "AU"
+  },
+  "target_titles": [
+    "Python Developer",
+    "Backend Engineer",
+    "Software Engineer",
+    "Full Stack Developer"
+  ],
+  "preferred_locations": [
+    "Adelaide",
+    "South Australia",
+    "SA",
+    "Remote"
+  ],
+  "allowed_workplace_types": [
+    "REMOTE",
+    "HYBRID"
+  ],
+  "skills": [
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "Docker",
+    "Redis",
+    "Playwright",
+    "SQLAlchemy",
+    "Git"
+  ],
+  "min_salary_expectation": 90000,
+  "resume_path": "./assets/resume.pdf",
+  "resume_text_raw": "Software Engineer based in Adelaide, SA with experience building Python backend microservices, REST APIs with FastAPI, and relational database systems..."
+}
