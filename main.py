@@ -82,7 +82,7 @@ async def run_pipeline(target_urls: list[str], dry_run: bool = True):
 if __name__ == "__main__":
     # Test sample URLs (Greenhouse / Lever sample postings)
     SAMPLE_TEST_URLS = [
-        "https://boards.greenhouse.io/embed/job_app?token=4028328002",
+      "https://boards.greenhouse.io/canonical/jobs/4252697002",
+      "https://boards.greenhouse.io/stripe/jobs/5643210",
     ]
-
     asyncio.run(run_pipeline(target_urls=SAMPLE_TEST_URLS, dry_run=True))
