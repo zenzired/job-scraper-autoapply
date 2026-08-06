@@ -67,17 +67,22 @@ class StealthScraperEngine:
         page: Page = await context.new_page()
 
         # Apply stealth patches to bypass navigator.webdriver detection
-        await stealth_async(page)
+        try:
+            from playwright_stealth import stealth_async
+            await stealth_async(page)
+        except (ImportError, AttributeError):
+            from playwright_stealth import Stealth
+            await Stealth().apply_to(page)
 
         try:
             logger.info(f"Navigating to: {url}")
-            response = await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+            await page.goto(url, wait_until="domcontentloaded", timeout=30000)
             
             # Introduce humanized random delay
             sleep_time = random.uniform(1.5, self.max_delay)
             await asyncio.sleep(sleep_time)
 
-            # Smooth scroll down to simulate human reading and trigger lazy-loaded dynamic content
+            # Smooth scroll down to simulate human reading
             await page.evaluate("window.scrollBy(0, 500);")
             await asyncio.sleep(0.5)
 
