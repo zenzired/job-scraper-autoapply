@@ -3,12 +3,10 @@ import random
 import logging
 from typing import Optional
 from playwright.async_api import async_playwright, Browser, BrowserContext, Page
-from playwright_stealth import stealth_async
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("stealth_scraper")
 
-# Modern Desktop User Agents for rotation
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -58,6 +56,20 @@ class StealthScraperEngine:
         )
         return context
 
+    async def _apply_stealth(self, page: Page):
+        """Applies stealth overrides cleanly regardless of playwright-stealth package version."""
+        try:
+            from playwright_stealth import stealth_async
+            await stealth_async(page)
+        except Exception as err:
+            logger.warning(f"playwright_stealth package call skipped ({err}). Applying direct JavaScript anti-bot masks.")
+            # Fallback direct injection to mask headless navigator properties
+            await page.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+                Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+                Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+            """)
+
     async def fetch_page_content(self, url: str) -> tuple[str, str]:
         """
         Navigates to a target URL with humanized delays and stealth masking.
@@ -66,23 +78,16 @@ class StealthScraperEngine:
         context = await self.create_stealth_context()
         page: Page = await context.new_page()
 
-        # Apply stealth patches to bypass navigator.webdriver detection
-        try:
-            from playwright_stealth import stealth_async
-            await stealth_async(page)
-        except (ImportError, AttributeError):
-            from playwright_stealth import Stealth
-            await Stealth().apply_to(page)
+        # Apply anti-bot masking safely
+        await self._apply_stealth(page)
 
         try:
             logger.info(f"Navigating to: {url}")
             await page.goto(url, wait_until="domcontentloaded", timeout=30000)
             
-            # Introduce humanized random delay
             sleep_time = random.uniform(1.5, self.max_delay)
             await asyncio.sleep(sleep_time)
 
-            # Smooth scroll down to simulate human reading
             await page.evaluate("window.scrollBy(0, 500);")
             await asyncio.sleep(0.5)
 
