@@ -1,0 +1,3 @@
+[submodule "my-private-config"]
+	path = my-private-config
+	url = git@github.com:zenzired/my-private-config.git
